@@ -1,0 +1,115 @@
+openapi: 3.0.0
+servers:
+  - url: http://localhost:8081/
+info:
+  title: Olixir Bay Shop Example API
+  version: '0.1'
+paths:
+  /Bays:
+    get:
+      tags:
+        - Bays
+      operationId: app.get_Bays
+      summary: Get all Bays
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 100
+      responses:
+        '200':
+          description: Return Bays
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/bay'
+  '/Bays/{bay_id}':
+    get:
+      tags:
+        - Bays
+      operationId: app.get_Bay
+      summary: Get a single bay
+      parameters:
+        - $ref: '#/components/parameters/bay_id'
+      responses:
+        '200':
+          description: Return bay
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/bay'
+        '404':
+          description: Bay does not exist
+    put:
+      tags:
+        - Bays
+      operationId: app.put_Bay
+      summary: Create or update a bay
+      parameters:
+        - $ref: '#/components/parameters/bay_id'
+      responses:
+        '200':
+          description: Bay updated
+        '201':
+          description: New Bay created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              x-body-name: bay
+              $ref: '#/components/schemas/bay'
+    delete:
+      tags:
+        - Bays
+      operationId: app.delete_Bay
+      summary: Remove a bay
+      parameters:
+        - $ref: '#/components/parameters/bay_id'
+      responses:
+        '204':
+          description: Bay was deleted
+        '404':
+          description: Bay does not exist
+components:
+  parameters:
+    bay_id:
+      name: bay_id
+      description: bay's number
+      in: path
+      required: true
+      schema:
+        type: integer
+        maximum: 8
+  schemas:
+    bay:
+      type: object
+      required:
+        - OR_ID
+        - status
+      properties:
+        status:
+          type: string
+          description: bay's status
+          example: mounted
+          minLength: 1
+          maxLength: 100
+        OR_ID:
+          type: string
+          description: organisation id
+          example: OR-FJDUS55
+          minLength: 10
+          maxLength: 10
+        created:
+          type: string
+          format: date-time
+          description: Creation time
+          example: '2015-07-07T15:49:51.230+02:00'
+          readOnly: true
