@@ -70,8 +70,8 @@ def html_table():
 def shutdown_session(exception=None):
     db_session.remove()
 
-APP = connexion.FlaskApp('api')
-APP.add_api('openapi.yaml', arguments={'title': 'olixir API'})
+#APP = connexion.FlaskApp('api')
+#APP.add_api('openapi.yaml', arguments={'title': 'olixir API'})
 
 
 if __name__ == '__main__':
