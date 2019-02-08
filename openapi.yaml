@@ -2,7 +2,7 @@ openapi: 3.0.0
 servers:
   - url: http://localhost:8081/
 info:
-  title: Olixir Bay Shop Example API
+  title: Olixir Disk Bay API
   version: '0.1'
 paths:
   /Bays:
@@ -82,7 +82,7 @@ components:
   parameters:
     bay_id:
       name: bay_id
-      description: bay's number
+      description: bay number
       in: path
       required: true
       schema:
@@ -94,6 +94,7 @@ components:
       required:
         - OR_ID
         - status
+        - disk_serial
       properties:
         status:
           type: string
@@ -107,9 +108,27 @@ components:
           example: OR-FJDUS55
           minLength: 10
           maxLength: 10
+        cp:
+          type: string
+          description: organisation name
+          example: content provider
+          minLength: 3
+          maxLength: 30
+        disk_serial:
+          type: string
+          description: serial of the disk
+          example: XXX123YZ
+          minLength: 3
+          maxLength: 30               
         created:
           type: string
           format: date-time
           description: Creation time
-          example: '2015-07-07T15:49:51.230+02:00'
+          example: '2018-07-07T15:49:51.230+02:00'
+          readOnly: true
+        updated:
+          type: string
+          format: date-time
+          description: Creation time
+          example: '2018-07-07T15:49:51.230+02:00'
           readOnly: true

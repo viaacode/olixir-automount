@@ -5,7 +5,8 @@ from flask_cors import CORS
 import connexion
 from connexion import NoContent
 from flask import Flask, request, render_template, session, redirect
-
+import pandas as pd
+import sqlite3
 import orm
 
 db_session = None
@@ -51,22 +52,15 @@ def delete_Bay(bay_id):
 logging.basicConfig(level=logging.INFO)
 db_session = orm.init_db('sqlite:////tmp/db.sqlite') 
 app = connexion.FlaskApp(__name__)
-
 app.add_api('openapi.yaml')
-
 application = app.app
-
-import pandas as pd
-import sqlite3
 
 @app.route('/log')
 def html_table():
 
-
-
     conn = sqlite3.connect("/tmp/db.sqlite")
-    df = pd.read_sql_query("select * from bays limit 5;", conn)
-    print(df)
+    df = pd.read_sql_query("select * from bays limit 8;", conn)
+    logging.info(df)
     return render_template('simple.html',  tables=[df.to_html(classes='data')], titles=df.columns.values)
 
 
