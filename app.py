@@ -51,11 +51,11 @@ def delete_Bay(bay_id):
 
 logging.basicConfig(level=logging.INFO)
 db_session = orm.init_db('sqlite:////tmp/db.sqlite') 
-app = connexion.FlaskApp(__name__)
-app.add_api('openapi.yaml')
-application = app.app
+APP = connexion.FlaskApp(__name__)
+APP.add_api('openapi.yaml')
+application = APP.app
 
-@app.route('/log')
+@APP.route('/log')
 def html_table():
 
     conn = sqlite3.connect("/tmp/db.sqlite")
@@ -70,7 +70,19 @@ def html_table():
 def shutdown_session(exception=None):
     db_session.remove()
 
+APP = connexion.FlaskApp('api')
+APP.add_api('openapi.yaml', arguments={'title': 'olixir API'})
+
 
 if __name__ == '__main__':
-    CORS(app.app)
-    app.run(port=8081, use_reloader=False, threaded=False)
+    CORS(APP.app)
+
+    APP = connexion.FlaskApp(__name__,
+                             port=9090)
+    APP.add_api('openapi.yaml',
+                arguments={'title': 'Transfer API'})
+    APP.run()
+
+#if __name__ == '__main__':
+#    CORS(app.app)
+#    app.run(port=8081, use_reloader=False, threaded=False)
