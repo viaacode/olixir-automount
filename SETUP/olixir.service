@@ -1,0 +1,14 @@
+[Unit]
+Description=workers
+Requires=network.target
+
+[Service]
+User=root
+WorkingDirectory=/opt/olixir-automount
+Type=simple
+TimeoutStartSec=30
+ExecStart=/opt/olixir-automount/olixir.sh start
+
+[Install] 
+WantedBy=multi-user.target
+

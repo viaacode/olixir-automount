@@ -1,6 +1,6 @@
 openapi: 3.0.0
 servers:
-  - url: http://localhost:8081/
+  - url: http://localhost:8055/
 info:
   title: Olixir Disk Bay API
   version: '0.1'

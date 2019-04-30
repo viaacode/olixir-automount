@@ -48,9 +48,8 @@ elif [[ $ID_PATH == "pci-0000:01:00.0-scsi-0:0:8:0" ]]; then
 fi
 success="FAILED"
 ## body for the api post
-generate_post_data()
-{
-  cat <<EOF
+generate_post_data(){
+cat <<EOF
 {
   "OR_ID": "$LABEL",
   "status": "$success",
@@ -117,7 +116,7 @@ do_mount()
 	curl -i \
 		-H "Accept: application/json" \
 		-H "Content-Type:application/json" \
-		-X PUT --data "$(generate_post_data)" "http://${APIIP}:8081/Bays/${BAY}" 
+		-X PUT --data "$(generate_post_data)" "http://${APIIP}:8055/Bays/${BAY}" 
     fi
 
 
@@ -130,7 +129,7 @@ do_mount()
 #curl -i \
 #-H "Accept: application/json" \
 #-H "Content-Type:application/json" \
-#-X PUT --data "$(generate_post_data)" "http://${APIIP}:8081/Bays/${BAY}" || exit 1
+#-X PUT --data "$(generate_post_data)" "http://${APIIP}:8055/Bays/${BAY}" || exit 1
 }
 
 do_unmount()
@@ -156,7 +155,7 @@ do_unmount()
     done
     ## remove from database with api
     echo "*****removeing from db bay ${BAY}"
-    curl -X DELETE "http://${APIIP}:8081/Bays/${BAY}" -H "accept: */*"
+    curl -X DELETE "http://${APIIP}:8055/Bays/${BAY}" -H "accept: */*"
 }
 
 case "${ACTION}" in
